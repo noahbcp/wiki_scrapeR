@@ -1,6 +1,5 @@
 {
 #Dependencies
-    library(tidyverse)
     library(lubridate)
     library(htmltools)
     library(rvest)
@@ -34,9 +33,22 @@
                 #Denotes where to 'look.' 
                 #Specifically, references the 'past front page' section.
             html_children() %>%
-                #Gets the html children
+                #Converts the {html_node} into a list
             html_text2()
                 #Cleans up html formatting from text
     print(paste('Did you know that on the ', day(get_bday), ' ', months(get_bday), ' the following happened...', sep = ''))
-    noquote(content)
+    rand_fact <- noquote(sample(content, 1, replace = FALSE))
+        #Samples the content list; returns a single item
+    { #Beginning trying to create a loop to cycle through all the 'facts.'
+        query <- as.character(readline(prompt = 'Do you want to hear another fact? (Y/N)'))
+        
+        if (c(query) == 'Y') {
+        rand_fact <- noquote(sample(content, 1, replace = FALSE))
+        print(rand_fact)
+        }
+        
+        if (query == 'N') {
+        readline(noquote(paste('Bye ', get_name, '!', sep = '')))
+        }
+    }
 }
