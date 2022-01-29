@@ -38,17 +38,22 @@
                 #Cleans up html formatting from text
     print(paste('Did you know that on the ', day(get_bday), ' ', months(get_bday), ' the following happened...', sep = ''))
     rand_fact <- noquote(sample(content, 1, replace = FALSE))
-        #Samples the content list; returns a single item
-    { #Beginning trying to create a loop to cycle through all the 'facts.'
-        query <- as.character(readline(prompt = 'Do you want to hear another fact? (Y/N)'))
+    print(rand_fact)
+#Samples the content list; returns a single item
+
+
+#Loops and returns a new (*not yet*) random fact.
+        q_response <- as.character(readline(prompt = 'Do you want to hear another fact? (Y/N): '))
+        while (q_response == 'Y') 
+            {
+            rand_fact <- noquote(sample(content, 1, replace = FALSE))
+            print(rand_fact)
+            q_response <- NULL
+            q_response <- as.character(readline(prompt = 'Do you want to hear another fact? (Y/N): '))
+            }
         
-        if (c(query) == 'Y') {
-        rand_fact <- noquote(sample(content, 1, replace = FALSE))
-        print(rand_fact)
-        }
-        
-        if (query == 'N') {
-        readline(noquote(paste('Bye ', get_name, '!', sep = '')))
-        }
-    }
+        if (q_response == 'N') 
+            {
+            readline(noquote(paste('Bye ', get_name, '!', sep = '')))
+            }
 }
