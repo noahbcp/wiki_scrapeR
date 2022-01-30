@@ -39,15 +39,19 @@
     print(paste('Did you know that on the ', day(get_bday), ' ', months(get_bday), ' the following happened...', sep = ''))
     rand_fact <- noquote(sample(content, 1, replace = FALSE))
     print(rand_fact)
+    i <- match(rand_fact, content) #finds rand_fact in the list and removes it to prevent double-ups
+    content <- content[-i]
 #Samples the content list; returns a single item
 
 
 #Loops and returns a new (*not yet*) random fact.
         q_response <- as.character(readline(prompt = 'Do you want to hear another fact? (Y/N): '))
-        while (q_response == 'Y') 
+        while (q_response == 'Y' & length(content) > 0)
             {
             rand_fact <- noquote(sample(content, 1, replace = FALSE))
             print(rand_fact)
+            i <- match(rand_fact, content)
+            content <- content[-i]
             q_response <- NULL
             q_response <- as.character(readline(prompt = 'Do you want to hear another fact? (Y/N): '))
             }
@@ -55,5 +59,20 @@
         if (q_response == 'N') 
             {
             readline(noquote(paste('Bye ', get_name, '!', sep = '')))
+            stop_quietly <- function() {
+                    opt <- options(show.error.messages = FALSE)
+                    on.exit(options(opt))
+                    stop()
+                    }
+            }
+        if (length(content) == 0) 
+            {
+            readline(noquote(paste('Sorry, there are no more facts.')))
+            readline(noquote(paste('Bye ', get_name, '!', sep = '')))
+            stop_quietly <- function() {
+                    opt <- options(show.error.messages = FALSE)
+                    on.exit(options(opt))
+                    stop()
+                    }
             }
 }
